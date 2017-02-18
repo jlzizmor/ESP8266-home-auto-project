@@ -1,1 +1,3 @@
-{"switches":[{"id":"sw1","state":"on","name":"Kyle's Lamp"},{"id":"sw2","state":"on","name":"sw2"}]}
+{"switches":
+[{"id":"sw1","state":"on","name":"Kyle's Lamp"},
+{"id":"sw2","state":"on","name":"sw2"}]}
