@@ -1,3 +1,13 @@
 {"switches":
-[{"id":"sw1","state":"on","name":"Kyle's Lamp"},
-{"id":"sw2","state":"on","name":"sw2"}]}
+[{"id":"lights-all","state":"off","name":"All lights"},
+{"id":"lights-bathroom-all","state":"off","name":"All Bathroom lights"},
+{"id":"lights-bathroom-closet","state":"off","name":"Bathroom closet lights"},
+{"id":"lights-bathroom-main","state":"off","name":"Bathroom main lights"},
+{"id":"lights-bedroom-all","state":"off","name":"All Bedroom lights"},
+{"id":"lights-bedroom-closet","state":"off","name":"Bedroom closet lights"},
+{"id":"lights-bedroom-main","state":"off","name":"Bedroom main lights"},
+{"id":"lights-kitchen-all","state":"off","name":"All Kitchen lights"},
+{"id":"lights-living_room-all","state":"off","name":"All Living Room lights"},
+{"id":"lights-living_room-door","state":"off","name":"Living Room door light"},
+{"id":"lights-living_room-lamps","state":"off","name":"Living Room lamps"},
+{"id":"lights-living_room-door","state":"off","name":"Living Room side lights"}]}
