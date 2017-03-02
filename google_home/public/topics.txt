@@ -1,0 +1,18 @@
+/lights
+	/all
+		all
+	/living_room
+		door
+		side
+		lamps
+		all
+	/kitchen
+		all
+	/bedroom
+		main
+		closet
+		all
+	/bathroom
+		main
+		closet
+		all
