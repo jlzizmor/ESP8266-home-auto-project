@@ -11,6 +11,9 @@ const char* ssid = "FiOS-S07RJ";
 const char* password = "airs03erik4644mute";
 const char* mqtt_server = "192.168.1.151";
 
+WiFiClient espClient;
+PubSubClient client(espClient);
+
 void setup_wifi() {
   delay(10);
   // We start by connecting to a WiFi network
@@ -21,12 +24,8 @@ void setup_wifi() {
   WiFi.begin(ssid, password);
 
   while (WiFi.status() != WL_CONNECTED) {
-    extButton();
-    for (int i = 0; i < 500; i++) {
-      extButton();
-      delay(1);
-    }
     Serial.print(".");
+    delay(1);
   }
   Serial.println("WiFi connected");
   Serial.println("IP address: ");
@@ -66,16 +65,22 @@ char* byteAtoCharA(byte* payload, unsigned int length) {
 
 void callback(char* feedTopic, byte* payload, unsigned int length) {
   if (strcmp(feedTopic, topic)) {
-    Serial.print("" + byteAtoCharA(payload, length));
+    Serial.print(byteAtoCharA(payload, length));
   }
 }
 
 void setup() {
-  // put your setup code here, to run once:
+  setup_wifi();
+  client.setServer(mqtt_server, 1883);
+  client.setCallback(callback);
 
+  Serial.begin(115200);
 }
 
 void loop() {
-  // put your main code here, to run repeatedly:
+  if (!client.connected()) {
+    reconnect();
+  }
 
+  client.loop();
 }
