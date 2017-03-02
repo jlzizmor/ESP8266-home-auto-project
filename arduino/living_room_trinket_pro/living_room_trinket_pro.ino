@@ -1,7 +1,6 @@
 /*
- * This script is for the trinket in the living room.
- */
-
+   This script is for the trinket in the living room.
+*/
 #include <Bounce2.h>
 
 #define DOOR_BUTTON 1
@@ -26,7 +25,12 @@ Bounce sideBtn = Bounce();
 Bounce lampsBtn = Bounce();
 Bounce allBtn = Bounce();
 
-
+bool updateBtns() {
+  return doorBtn.update() ||
+         sideBtn.update() ||
+         lampsBtn.update() ||
+         allBtn.update();
+}
 
 void setup() {
   // put your setup code here, to run once:
@@ -52,5 +56,21 @@ void setup() {
 }
 
 void loop() {
-  // put your main code here, to run repeatedly:
+  if (Serial.available()) {
+    
+  }
+  else if (updateBtns()) {
+    if (doorBtn.fell()) {
+      
+    }
+    else if (sideBtn.fell()) {
+      
+    }
+    else if (lampsBtn.fell()) {
+      
+    }
+    else if (all.fell()) {
+      
+    }
+  }
 }
