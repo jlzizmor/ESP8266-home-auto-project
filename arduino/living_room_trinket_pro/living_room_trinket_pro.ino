@@ -2,6 +2,7 @@
    This script is for the trinket in the living room.
 */
 #include <Bounce2.h>
+#include <EEPROM.h>
 
 #define DOOR_BUTTON 1
 #define SIDE_BUTTON 2
@@ -10,7 +11,23 @@
 #define DOOR_PWM 5
 #define SIDE_PWM 6
 #define LAMPS_PWM 9
+#define DOOR_EEPROM 0
+#define SIDE_EEPROM 1
+#define LAMPS_EEPROM 2
 #define DEBOUNCE_INTERVAL 50
+#define SWITCH_DELAY 500
+
+#define DOOR_ON 10
+#deinfe DOOR_OFF 0
+#define DOOR_NEUTRAL 5
+
+#define SIDE_ON 10
+#deinfe SIDE_OFF 0
+#define SIDE_NEUTRAL 5
+
+#define LAMPS_ON 10
+#deinfe LAMPS_OFF 0
+#define LAMPS_NEUTRAL 5
 
 const String ON = "ON";
 const String OFF = "OFF";
@@ -30,6 +47,91 @@ bool updateBtns() {
          sideBtn.update() ||
          lampsBtn.update() ||
          allBtn.update();
+}
+
+void flipDoor() {
+  int value = 0;
+  if (EEPROM.read(DOOR_EEPROM) == 1) {
+    analogWrite(DOOR_PWM, DOOR_OFF);
+    value = 0;
+  }
+  else {
+    analogWrite(DOOR_PWM, DOOR_ON);
+    value = 1;
+  }
+  EEPROM.write(DOOR_EEPROM, value);
+  EEPROM.commit;
+
+  delay(SWITCH_DELAY);
+
+  analogWrite(DOOR_PWM, DOOR_NEUTRAL);
+}
+
+void flipSide() {
+  int value = 0;
+  if (EEPROM.read(SIDE_EEPROM) == 1) {
+    analogWrite(SIDE_PWM, SIDE_OFF);
+    value = 0;
+  }
+  else {
+    analogWrite(SIDE_PWM, SIDE_ON);
+    value = 1;
+  }
+  EEPROM.write(SIDE_EEPROM, value);
+  EEPROM.commit;
+
+  delay(SWITCH_DELAY);
+
+  analogWrite(SIDE_PWM, SIDE_NEUTRAL);
+}
+
+void flipLamps() {
+  int value = 0;
+  if (EEPROM.read(LAMPS_EEPROM) == 1) {
+    analogWrite(LAMPS_PWM, LAMPS_OFF);
+    value = 0;
+  }
+  else {
+    analogWrite(LAMPS_PWM, LAMPS_ON);
+    value = 1;
+  }
+  EEPROM.write(LAMPS_EEPROM, value);
+  EEPROM.commit;
+
+  delay(SWITCH_DELAY);
+
+  analogWrite(LAMPS_PWM, LAMPS_NEUTRAL);
+}
+
+void flipAll() {
+  int onCount = 0;
+  int offCount = 0;
+
+  if (EEPROM.read(DOOR_EEPROM) == 1) {
+    onCount++;
+  }
+  else {
+    offCount++;
+  }
+  if (EEPROM.read(SIDE_EEPROM) == 1) {
+    onCount++;
+  }
+  else {
+    offCount++;
+  }
+  if (EEPROM.read(LAMPS_EEPROM) == 1) {
+    onCount++;
+  }
+  else {
+    offCount++;
+  }
+
+  if (onCount > offCount) {
+    turnAll(1);
+  }
+  else {
+    turnAll(0);
+  }
 }
 
 void setup() {
@@ -61,16 +163,16 @@ void loop() {
   }
   else if (updateBtns()) {
     if (doorBtn.fell()) {
-      
+      flipDoor();
     }
     else if (sideBtn.fell()) {
-      
+      flipSide();
     }
     else if (lampsBtn.fell()) {
-      
+      flipLamps();
     }
     else if (all.fell()) {
-      
+      flipAll();
     }
   }
 }
