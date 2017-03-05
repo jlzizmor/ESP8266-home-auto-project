@@ -134,6 +134,18 @@ void flipAll() {
   }
 }
 
+void turnDoor(char state) {
+	if (state == 1) {
+		analogWrite(DOOR_PWM, DOOR_ON);
+	else {
+		analogWrite(DOOR_PWM, DOOR_OFF);
+	}
+	EEPROM.write(DOOR_EEPROM, state);
+	EEPROM.commit();
+	delay(SWITCH_DELAY);
+	analogWrite(DOOR_PWM, DOOR_NEUTRAL);
+}
+
 void setup() {
   // put your setup code here, to run once:
   Serial.begin(115200);
