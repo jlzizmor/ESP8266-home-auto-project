@@ -18,15 +18,15 @@
 #define SWITCH_DELAY 500
 
 #define DOOR_ON 10
-#deinfe DOOR_OFF 0
+#define DOOR_OFF 0
 #define DOOR_NEUTRAL 5
 
 #define SIDE_ON 10
-#deinfe SIDE_OFF 0
+#define SIDE_OFF 0
 #define SIDE_NEUTRAL 5
 
 #define LAMPS_ON 10
-#deinfe LAMPS_OFF 0
+#define LAMPS_OFF 0
 #define LAMPS_NEUTRAL 5
 
 const String ON = "ON";
