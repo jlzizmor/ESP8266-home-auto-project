@@ -155,6 +155,23 @@ void turnDoor(char state) {
 	delay(SWITCH_DELAY);
 }
 
+void turnSide(char state) {
+	if (state == ON) {
+		analogWrite(SIDE_PWM, SIDE_ON);
+	}
+	else if (state == OFF) {
+		analogWrite(SIDE_PWM, SIDE_OFF);
+	}
+	if ((state == ON) || (state == OFF)) {
+		EEPROM.write(SIDE_EEPROM, state);
+		EEPROM.commit();
+		delay(SWITCH_DELAY);
+	}
+
+	analogWrite(SIDE_PWM, SIDE_NEUTRAL);
+	delay(SWITCH_DELAY);
+}
+
 void setup() {
   Serial.begin(115200);
 
