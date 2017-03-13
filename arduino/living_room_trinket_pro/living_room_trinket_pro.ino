@@ -29,6 +29,10 @@
 #define LAMPS_OFF 0
 #define LAMPS_NEUTRAL 5
 
+#define ON 1
+#define OFF -1
+#define NEUTRAL 0
+
 const String ON = "ON";
 const String OFF = "OFF";
 const String DOOR = "DOOR";
@@ -135,19 +139,23 @@ void flipAll() {
 }
 
 void turnDoor(char state) {
-	if (state == 1) {
+	if (state == ON) {
 		analogWrite(DOOR_PWM, DOOR_ON);
-	else {
+	}
+	else if (state == OFF) {
 		analogWrite(DOOR_PWM, DOOR_OFF);
 	}
-	EEPROM.write(DOOR_EEPROM, state);
-	EEPROM.commit();
-	delay(SWITCH_DELAY);
+	if ((state == ON) || (state == OFF)) {
+		EEPROM.write(DOOR_EEPROM, state);
+		EEPROM.commit();
+		delay(SWITCH_DELAY);
+	}
+
 	analogWrite(DOOR_PWM, DOOR_NEUTRAL);
+	delay(SWITCH_DELAY);
 }
 
 void setup() {
-  // put your setup code here, to run once:
   Serial.begin(115200);
 
   pinMode(DOOR_BUTTON, INPUT_PULLUP);
