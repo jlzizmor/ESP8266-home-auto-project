@@ -172,6 +172,23 @@ void turnSide(char state) {
 	delay(SWITCH_DELAY);
 }
 
+void turnLamps(char state) {
+	if (state == ON) {
+		analogWrite(LAMPS_PWM, LAMPS_ON);
+	}
+	else if (state == OFF) {
+		analogWrite(LAMPS_PWM, LAMPS_OFF);
+	}
+	if ((state == ON) || (state == OFF)) {
+		EEPROM.write(LAMPS_EEPROM, state);
+		EEPROM.commit();
+		delay(SWITCH_DELAY);
+	}
+
+	analogWrite(LAMPS_PWM, LAMPS_NEUTRAL);
+	delay(SWITCH_DELAY);
+}
+
 void setup() {
   Serial.begin(115200);
 
