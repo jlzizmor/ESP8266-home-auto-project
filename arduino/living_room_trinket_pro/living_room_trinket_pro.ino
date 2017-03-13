@@ -54,57 +54,30 @@ bool updateBtns() {
 }
 
 void flipDoor() {
-  int value = 0;
-  if (EEPROM.read(DOOR_EEPROM) == 1) {
-    analogWrite(DOOR_PWM, DOOR_OFF);
-    value = 0;
+  if (EEPROM.read(DOOR_EEPROM) == ON) {
+    turnDoor(OFF);
   }
   else {
-    analogWrite(DOOR_PWM, DOOR_ON);
-    value = 1;
+    turnDoor(ON);
   }
-  EEPROM.write(DOOR_EEPROM, value);
-  EEPROM.commit;
-
-  delay(SWITCH_DELAY);
-
-  analogWrite(DOOR_PWM, DOOR_NEUTRAL);
 }
 
 void flipSide() {
-  int value = 0;
-  if (EEPROM.read(SIDE_EEPROM) == 1) {
-    analogWrite(SIDE_PWM, SIDE_OFF);
-    value = 0;
+  if (EEPROM.read(SIDE_EEPROM) == ON) {
+    turnSide(OFF);
   }
   else {
-    analogWrite(SIDE_PWM, SIDE_ON);
-    value = 1;
+    turnSide(ON);
   }
-  EEPROM.write(SIDE_EEPROM, value);
-  EEPROM.commit;
-
-  delay(SWITCH_DELAY);
-
-  analogWrite(SIDE_PWM, SIDE_NEUTRAL);
 }
 
 void flipLamps() {
-  int value = 0;
-  if (EEPROM.read(LAMPS_EEPROM) == 1) {
-    analogWrite(LAMPS_PWM, LAMPS_OFF);
-    value = 0;
+  if (EEPROM.read(LAMPS_EEPROM) == ON) {
+		turnLamps(OFF);
   }
   else {
-    analogWrite(LAMPS_PWM, LAMPS_ON);
-    value = 1;
+		turnLamps(ON);
   }
-  EEPROM.write(LAMPS_EEPROM, value);
-  EEPROM.commit;
-
-  delay(SWITCH_DELAY);
-
-  analogWrite(LAMPS_PWM, LAMPS_NEUTRAL);
 }
 
 void flipAll() {
