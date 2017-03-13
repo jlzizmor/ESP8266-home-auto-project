@@ -131,11 +131,17 @@ void flipAll() {
   }
 
   if (onCount > offCount) {
-    turnAll(1);
+    turnAll(on);
   }
   else {
-    turnAll(0);
+    turnAll(off);
   }
+}
+
+void turnAll(char state) {
+	turnDoor(state);
+	turnSide(state);
+	turnLamps(state);
 }
 
 void turnDoor(char state) {
