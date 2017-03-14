@@ -33,6 +33,11 @@
 #define OFF -1
 #define NEUTRAL 0
 
+#define DOOR_ID 10
+#define SIDE_ID 11
+#define LAMPS_ID 12
+#define ALL_ID 13
+
 const String ON = "ON";
 const String OFF = "OFF";
 const String DOOR = "DOOR";
@@ -45,6 +50,9 @@ Bounce doorBtn = Bounce();
 Bounce sideBtn = Bounce();
 Bounce lampsBtn = Bounce();
 Bounce allBtn = Bounce();
+
+String serialInput;
+int input[2];
 
 bool updateBtns() {
   return doorBtn.update() ||
@@ -188,11 +196,46 @@ void setup() {
   sideBtn.interval(DEBOUNCE_INTERVAL);
   lampsBtn.interval(DEBOUNCE_INTERVAL);
   allBtn.interval(DEBOUNCE_INTERVAL);
+
+	serialInput = "";
+}
+
+void analyse(int* array, String input) {
+	String character = "";
+
+	character = input.substring(0,1);
+
+	if (character.equals(DOOR.substring(0,1)))
+		array[0] = DOOR_ID;
+	else if (character.equals(SIDE.substring(0,1)))
+		array[0] = SIDE_ID;
+	else if (character.equals(LAMPS.substring(0,1)))
+		array[0] = LAMPS_ID;
+	else
+		array[0] = ALL_ID;
+
+	character = input.substring(input.length()-1);
+
+	if (character.equals(ON.substring(ON.length()-1)))
+		array[1] = ON;
+	else
+		array[1] = OFF;
 }
 
 void loop() {
   if (Serial.available()) {
-    
+    serialInput = Serial.readString();
+
+		analyse(input, serialInput);
+
+		if (input[0] == DOOR_ID)
+			turnDoor(input[1]);
+		else if (input[0] == SIDE_ID)
+			turnSide(input[1]);
+		else if (input[0] == LAMPS_ID)
+			turnLamps(input[1]);
+		else
+			turnAll(input[1]);
   }
   else if (updateBtns()) {
     if (doorBtn.fell()) {
