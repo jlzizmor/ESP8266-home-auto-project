@@ -29,9 +29,9 @@
 #define LAMPS_OFF 0
 #define LAMPS_NEUTRAL 5
 
-#define ON 1
-#define OFF -1
-#define NEUTRAL 0
+#define ON_ID 1
+#define OFF_ID -1
+#define NEUTRAL_ID 0
 
 #define DOOR_ID 10
 #define SIDE_ID 11
@@ -62,29 +62,29 @@ bool updateBtns() {
 }
 
 void flipDoor() {
-  if (EEPROM.read(DOOR_EEPROM) == ON) {
-    turnDoor(OFF);
+  if (EEPROM.read(DOOR_EEPROM) == ON_ID) {
+    turnDoor(OFF_ID);
   }
   else {
-    turnDoor(ON);
+    turnDoor(ON_ID);
   }
 }
 
 void flipSide() {
-  if (EEPROM.read(SIDE_EEPROM) == ON) {
-    turnSide(OFF);
+  if (EEPROM.read(SIDE_EEPROM) == ON_ID) {
+    turnSide(OFF_ID);
   }
   else {
-    turnSide(ON);
+    turnSide(ON_ID);
   }
 }
 
 void flipLamps() {
-  if (EEPROM.read(LAMPS_EEPROM) == ON) {
-		turnLamps(OFF);
+  if (EEPROM.read(LAMPS_EEPROM) == ON_ID) {
+		turnLamps(OFF_ID);
   }
   else {
-		turnLamps(ON);
+		turnLamps(ON_ID);
   }
 }
 
@@ -112,10 +112,10 @@ void flipAll() {
   }
 
   if (onCount > offCount) {
-    turnAll(on);
+    turnAll(ON_ID);
   }
   else {
-    turnAll(off);
+    turnAll(OFF_ID);
   }
 }
 
@@ -126,15 +126,14 @@ void turnAll(char state) {
 }
 
 void turnDoor(char state) {
-	if (state == ON) {
+	if (state == ON_ID) {
 		analogWrite(DOOR_PWM, DOOR_ON);
 	}
-	else if (state == OFF) {
+	else if (state == OFF_ID) {
 		analogWrite(DOOR_PWM, DOOR_OFF);
 	}
-	if ((state == ON) || (state == OFF)) {
-		EEPROM.write(DOOR_EEPROM, state);
-		EEPROM.commit();
+	if ((state == ON_ID) || (state == OFF_ID)) {
+		EEPROM.put(DOOR_EEPROM, state);
 		delay(SWITCH_DELAY);
 	}
 
@@ -143,15 +142,14 @@ void turnDoor(char state) {
 }
 
 void turnSide(char state) {
-	if (state == ON) {
+	if (state == ON_ID) {
 		analogWrite(SIDE_PWM, SIDE_ON);
 	}
-	else if (state == OFF) {
+	else if (state == OFF_ID) {
 		analogWrite(SIDE_PWM, SIDE_OFF);
 	}
-	if ((state == ON) || (state == OFF)) {
-		EEPROM.write(SIDE_EEPROM, state);
-		EEPROM.commit();
+	if ((state == ON_ID) || (state == OFF_ID)) {
+		EEPROM.put(SIDE_EEPROM, state);
 		delay(SWITCH_DELAY);
 	}
 
@@ -160,15 +158,14 @@ void turnSide(char state) {
 }
 
 void turnLamps(char state) {
-	if (state == ON) {
+	if (state == ON_ID) {
 		analogWrite(LAMPS_PWM, LAMPS_ON);
 	}
-	else if (state == OFF) {
+	else if (state == OFF_ID) {
 		analogWrite(LAMPS_PWM, LAMPS_OFF);
 	}
-	if ((state == ON) || (state == OFF)) {
-		EEPROM.write(LAMPS_EEPROM, state);
-		EEPROM.commit();
+	if ((state == ON_ID) || (state == OFF_ID)) {
+		EEPROM.put(LAMPS_EEPROM, state);
 		delay(SWITCH_DELAY);
 	}
 
@@ -217,9 +214,9 @@ void analyse(int* array, String input) {
 	character = input.substring(input.length()-1);
 
 	if (character.equals(ON.substring(ON.length()-1)))
-		array[1] = ON;
+		array[1] = ON_ID;
 	else
-		array[1] = OFF;
+		array[1] = OFF_ID;
 }
 
 void loop() {
@@ -247,7 +244,7 @@ void loop() {
     else if (lampsBtn.fell()) {
       flipLamps();
     }
-    else if (all.fell()) {
+    else if (allBtn.fell()) {
       flipAll();
     }
   }
